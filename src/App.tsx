@@ -1,9 +1,8 @@
-import VanillaJSONEditor from "./VanillaJSONEditor";
 import { useEffect, useState } from "react";
-import "./styles.css";
+import { Button, Stack } from 'react-bootstrap';
 import { JsLoaderService } from "./JsLoaderSservice";
 import JsonEditorView from "./JsonEditorView";
-import { Button, Stack } from 'react-bootstrap';
+import "./styles.css";
 
 // declare const window: Window;
 // let aTest : any;
