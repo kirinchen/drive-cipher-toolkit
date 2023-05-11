@@ -43,13 +43,21 @@ const App = () => {
         <JsonEditorView></JsonEditorView>
       )}
       {!showEditor && (
-        <Stack direction="horizontal" gap={2}>
-          <Button as="a" variant="primary">
-            Button as link
-          </Button>
-          <Button as="a" variant="success">
-            Button as link
-          </Button>
+        <Stack className="container" direction="horizontal" gap={2}>
+          <div className="row">
+
+            <div className="input-group mb-3 col-12">
+              <input type="text" className="form-control" placeholder="Username" aria-label="Username" />
+              <span className="input-group-text">@</span>
+              <input type="text" className="form-control" placeholder="Server" aria-label="Server" />
+            </div>
+
+            <div className="input-group col-12" >
+              <span className="input-group-text">With textarea</span>
+              <textarea className="form-control" aria-label="With textarea"></textarea>
+            </div>
+          </div>
+
         </Stack>
       )}
 
