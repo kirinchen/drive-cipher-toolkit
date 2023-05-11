@@ -1,24 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import VanillaJSONEditor from "./VanillaJSONEditor";
+import { useState } from "react";
+import "./styles.css";
 
 function App() {
+  const [showEditor, setShowEditor] = useState(true);
+  const [readOnly, setReadOnly] = useState(false);
+  const [content, setContent] = useState({
+    json: {
+      greeting: "Hello World",
+      color: "#ff3e00",
+      ok: true,
+      values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    },
+    text: undefined
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+<div className="App">
+      <h1>svelte-jsoneditor in React</h1>
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            checked={showEditor}
+            onChange={() => setShowEditor(!showEditor)}
+          />{" "}
+          Show JSON editor
+        </label>
+      </p>
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            checked={readOnly}
+            onChange={() => setReadOnly(!readOnly)}
+          />{" "}
+          Read only
+        </label>
+      </p>
+
+      {showEditor && (
+        <>
+          <h2>Editor</h2>
+          <div className="my-editor">
+            <VanillaJSONEditor
+              content={content}
+              readOnly={readOnly}
+              onChange={setContent}
+            />
+          </div>
+        </>
+      )}
+
+      <>
+        <h2>Contents</h2>
+        <pre>
+          <code>{JSON.stringify(content, null, 2)}</code>
+        </pre>
+      </>
     </div>
   );
 }
