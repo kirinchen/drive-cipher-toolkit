@@ -2,10 +2,11 @@ import VanillaJSONEditor from "./VanillaJSONEditor";
 import { useEffect, useState } from "react";
 import "./styles.css";
 import { JsLoaderService } from "./JsLoaderSservice";
+import JsonEditorView from "./JsonEditorView";
 
 // declare const window: Window;
 // let aTest : any;
-function App() {
+const App = () => {
 
   useEffect(() => {
     return () => {
@@ -29,51 +30,7 @@ function App() {
   });
   return (
     <div className="App">
-      <h1>svelte-jsoneditor in React</h1>
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            checked={showEditor}
-            onChange={() => {
-              // window.test();
-              console.log(+globalThis.aTest);
-              setShowEditor(!showEditor)
-            }}
-          />{" "}
-          Show JSON editor
-        </label>
-      </p>
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            checked={readOnly}
-            onChange={() => setReadOnly(!readOnly)}
-          />{" "}
-          Read only
-        </label>
-      </p>
-
-      {showEditor && (
-        <>
-          <h2>Editor</h2>
-          <div className="my-editor">
-            <VanillaJSONEditor
-              content={content}
-              readOnly={readOnly}
-              onChange={setContent}
-            />
-          </div>
-        </>
-      )}
-
-      <>
-        <h2>Contents</h2>
-        <pre>
-          <code>{JSON.stringify(content, null, 2)}   </code>
-        </pre>
-      </>
+      <JsonEditorView></JsonEditorView>
     </div>
   );
 }
