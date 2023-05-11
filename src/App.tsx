@@ -1,8 +1,21 @@
 import VanillaJSONEditor from "./VanillaJSONEditor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles.css";
+import { JsLoaderService } from "./JsLoaderSservice";
 
+// declare const window: Window;
+// let aTest : any;
 function App() {
+
+  useEffect(() => {
+    return () => {
+      console.log("This only happens ONCE");
+      loadGapi();
+    }
+  }, []);
+
+
+
   const [showEditor, setShowEditor] = useState(true);
   const [readOnly, setReadOnly] = useState(false);
   const [content, setContent] = useState({
@@ -15,14 +28,18 @@ function App() {
     text: undefined
   });
   return (
-<div className="App">
+    <div className="App">
       <h1>svelte-jsoneditor in React</h1>
       <p>
         <label>
           <input
             type="checkbox"
             checked={showEditor}
-            onChange={() => setShowEditor(!showEditor)}
+            onChange={() => {
+              // window.test();
+              console.log(+globalThis.aTest);
+              setShowEditor(!showEditor)
+            }}
           />{" "}
           Show JSON editor
         </label>
@@ -54,11 +71,27 @@ function App() {
       <>
         <h2>Contents</h2>
         <pre>
-          <code>{JSON.stringify(content, null, 2)}</code>
+          <code>{JSON.stringify(content, null, 2)}   </code>
         </pre>
       </>
     </div>
   );
 }
+
+
+
+async function loadGapi() {
+  console.log("loadGapi");
+  const ri = await JsLoaderService.loadScript({
+    id: 'gapi',
+    src: 'https://apis.google.com/js/api.js'
+  }, se => {
+    se.async = true;
+    se.defer = true;
+  });
+  if (!ri.loaded) { throw new Error('not load gapi!'); }
+  console.log(globalThis.gapi + " !!!!Loaded");
+}
+
 
 export default App;
