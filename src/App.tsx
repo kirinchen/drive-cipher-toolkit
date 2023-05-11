@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 import { JsLoaderService } from "./JsLoaderSservice";
 import JsonEditorView from "./JsonEditorView";
+import { Button,Stack } from 'react-bootstrap';
 
 // declare const window: Window;
 // let aTest : any;
@@ -31,6 +32,14 @@ const App = () => {
   return (
     <div className="App">
       <JsonEditorView></JsonEditorView>
+      <Stack direction="horizontal" gap={2}>
+        <Button as="a" variant="primary">
+          Button as link
+        </Button>
+        <Button as="a" variant="success">
+          Button as link
+        </Button>
+      </Stack>
     </div>
   );
 }
