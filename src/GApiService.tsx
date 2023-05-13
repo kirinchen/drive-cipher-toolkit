@@ -1,12 +1,23 @@
 import { JsLoaderService } from "./JsLoaderSservice";
 
+export enum AuthState {
+    API_INI_RUN = "API_INI_RUN",
+    API_SCRIPT_LOADED = "API_SCRIPT_LOADED",
+    CLIENT_OBJ_READY = "CLIENT_OBJ_READY",
+    CLIENT_INIT_DONE = "CLIENT_INIT_DONE"
+
+}
+
 export class GApiService {
     public static instance: GApiService = new GApiService();
-    public signined = false;
+    public authState = AuthState.API_INI_RUN;
+    public onStateChange: (state: AuthState) => void = (s) => { };
 
     private constructor() {
         console.log(process.env.GAPI_API_KEY);
     }
+
+
 
     public async init(): Promise<void> {
         console.log("init GAPI!!");
@@ -19,25 +30,27 @@ export class GApiService {
         });
         if (!ri.loaded) { throw new Error('not load gapi!'); }
         console.log(globalThis.gapi + " !!!!Loaded");
-        await this.loadApi();
+        this.authState = AuthState.API_SCRIPT_LOADED;
+        await this.createClient();
+        this.authState = AuthState.CLIENT_OBJ_READY;
         await this.initGApiClient();
+        this.authState = AuthState.CLIENT_INIT_DONE;
         console.log("init GAPI DONE!");
     }
 
-    private async loadApi(): Promise<void> {
+    private async createClient(): Promise<void> {
         return new Promise((rev, rej) => {
             globalThis.gapi.load('client:auth2', async () => { rev(); });
         });
     }
 
     private async initGApiClient(): Promise<void> {
-        console.log(process.env.GAPI_OAUTH_CLIENT_ID);
         try {
             await globalThis.gapi.client.init({
                 apiKey: process.env.REACT_APP_GAPI_API_KEY,
                 clientId: process.env.REACT_APP_GAPI_OAUTH_CLIENT_ID,
                 discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-                plugin_name:'google-drive-secret-toolkit',
+                plugin_name: 'google-drive-secret-toolkit',
                 scope: this.scopeStr(
                     [
                         'https://www.googleapis.com/auth/drive',
@@ -70,12 +83,17 @@ export class GApiService {
     }
 
     private updateSigninStatus(s: boolean) {
-        this.signined = s;
-        console.log('updateSigninStatus:' + this.signined);
+        // this.signined = s;
+        // console.log('updateSigninStatus:' + this.signined);
     }
 
     public onAuthClick(): void {
         globalThis.gapi.auth2.getAuthInstance().signIn();
+    }
+
+    private setState(state: AuthState): void {
+        this.authState = state;
+        this.onStateChange(this.authState);
     }
 
 

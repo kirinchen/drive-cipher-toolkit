@@ -1,17 +1,36 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
-import { Button, Stack } from 'react-bootstrap';
-import { GApiService } from "./GApiService";
-import JsonEditorView from "./JsonEditorView";
+import { BaseSyntheticEvent, useEffect } from "react";
+import { Button } from 'react-bootstrap';
+import { AuthState, GApiService } from "./GApiService";
 import "./styles.css";
-
+import loading from './assets/loading.gif';
+import { useState } from "react";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
   GApiService.instance.onAuthClick();
 };
 
-// declare const window: Window;
-// let aTest : any;
+
+const GApiLoginView = () => {
+
+  return (
+    <Button onClick={onAuthClick} >
+      GApi Login
+    </Button>
+  )
+}
+
+const isLoading = (state: AuthState): boolean => {
+  if (state === AuthState.API_INI_RUN) return true;
+  if (state === AuthState.API_SCRIPT_LOADED) return true;
+  if (state === AuthState.CLIENT_OBJ_READY) return true;
+  return false;
+}
+
+const isLogin = (state: AuthState): boolean => {
+  return state === AuthState.CLIENT_INIT_DONE;
+}
+
 const App = () => {
 
   useEffect(() => {
@@ -21,54 +40,32 @@ const App = () => {
     }
   }, []);
 
-
-
-  const [showEditor, setShowEditor] = useState(true);
-
-
-
-
+  const [gapiState, setGapiState] = useState(GApiService.instance.authState);
+  GApiService.instance.onStateChange = setGapiState
 
   return (
     <div className="App">
-      @@  {process.env.REACT_APP_DOMAIN}  XXX
-      <Button onClick={onAuthClick} >
-        GApi Login
-      </Button>
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            checked={showEditor}
-            onChange={() => {
-              setShowEditor(!showEditor)
-            }}
-          />{" "}
-          JSON / Text
-        </label>
-      </p>
-
-      {showEditor && (
-        <JsonEditorView></JsonEditorView>
+      {isLoading(gapiState) && (
+        <section className="content" >
+          <img src={loading} className="App-logo" alt="logo" />
+        </section>
       )}
-      {!showEditor && (
-        <Stack className="container" direction="horizontal" gap={2}>
-          <div className="row">
-
-            <div className="input-group mb-3 col-12">
-              <input type="text" className="form-control" placeholder="Username" aria-label="Username" />
-              <span className="input-group-text">@</span>
-              <input type="text" className="form-control" placeholder="Server" aria-label="Server" />
-            </div>
-
-            <div className="input-group col-12" >
-              <span className="input-group-text">With textarea</span>
-              <textarea className="form-control" aria-label="With textarea"></textarea>
-            </div>
-          </div>
-
-        </Stack>
+      {isLogin(gapiState) && (
+        <section className="content" >
+          <GApiLoginView></GApiLoginView>
+        </section>
       )}
+      {/* {!isLoading(gapiState) && (
+        <>
+          <header className="header" > <GApiLoginView></GApiLoginView> </header>
+          <section className="content" >
+            我是内容区
+            <img src={loading} className="App-logo" alt="logo" />
+          </section>
+          <footer className="footer" > 我是底部 </footer>
+        </>
+      )} */}
+
 
     </div>
   );
