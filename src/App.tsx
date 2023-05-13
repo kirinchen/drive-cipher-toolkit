@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button, Stack } from 'react-bootstrap';
-import { JsLoaderService } from "./JsLoaderSservice";
+import { GApiService } from "./GApiService";
 import JsonEditorView from "./JsonEditorView";
 import "./styles.css";
+
+
+const onAuthClick = (e: BaseSyntheticEvent) => {
+  console.log(e);
+};
 
 // declare const window: Window;
 // let aTest : any;
@@ -11,7 +16,7 @@ const App = () => {
   useEffect(() => {
     return () => {
       console.log("This only happens ONCE");
-      loadGapi();
+      GApiService.instance.init();
     }
   }, []);
 
@@ -25,7 +30,9 @@ const App = () => {
 
   return (
     <div className="App">
-
+      <Button onClick={onAuthClick} >
+        GApi Login
+      </Button>
       <p>
         <label>
           <input
@@ -67,18 +74,7 @@ const App = () => {
 
 
 
-async function loadGapi() {
-  console.log("loadGapi");
-  const ri = await JsLoaderService.loadScript({
-    id: 'gapi',
-    src: 'https://apis.google.com/js/api.js'
-  }, se => {
-    se.async = true;
-    se.defer = true;
-  });
-  if (!ri.loaded) { throw new Error('not load gapi!'); }
-  console.log(globalThis.gapi + " !!!!Loaded");
-}
+
 
 
 export default App;
