@@ -5,6 +5,7 @@ export class GApiService {
     public signined = false;
 
     private constructor() {
+        console.log(process.env.GAPI_API_KEY);
     }
 
     public async init(): Promise<void> {
@@ -30,11 +31,13 @@ export class GApiService {
     }
 
     private async initGApiClient(): Promise<void> {
+        console.log(process.env.GAPI_OAUTH_CLIENT_ID);
         try {
             await globalThis.gapi.client.init({
-                apiKey: process.env.apiKey,
-                clientId: process.env.clientId,
+                apiKey: process.env.REACT_APP_GAPI_API_KEY,
+                clientId: process.env.REACT_APP_GAPI_OAUTH_CLIENT_ID,
                 discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+                plugin_name:'google-drive-secret-toolkit',
                 scope: this.scopeStr(
                     [
                         'https://www.googleapis.com/auth/drive',
@@ -49,6 +52,7 @@ export class GApiService {
 
 
             });
+
         } catch (ex) {
             alert(JSON.stringify(ex, null, 2));
         }
