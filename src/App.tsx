@@ -7,6 +7,7 @@ import "./styles.css";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
+  GApiService.instance.onAuthClick();
 };
 
 // declare const window: Window;

@@ -19,18 +19,19 @@ export class GApiService {
         if (!ri.loaded) { throw new Error('not load gapi!'); }
         console.log(globalThis.gapi + " !!!!Loaded");
         await this.loadApi();
+        await this.initGApiClient();
         console.log("init GAPI DONE!");
     }
 
     private async loadApi(): Promise<void> {
         return new Promise((rev, rej) => {
-            gapi.load('client:auth2', async () => { rev(); });
+            globalThis.gapi.load('client:auth2', async () => { rev(); });
         });
     }
 
     private async initGApiClient(): Promise<void> {
         try {
-            await gapi.client.init({
+            await globalThis.gapi.client.init({
                 apiKey: process.env.apiKey,
                 clientId: process.env.clientId,
                 discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
@@ -51,9 +52,9 @@ export class GApiService {
         } catch (ex) {
             alert(JSON.stringify(ex, null, 2));
         }
-
-        gapi.auth2.getAuthInstance().isSignedIn.listen((s: boolean) => { this.updateSigninStatus(s); });
-        this.updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        const auth = globalThis.gapi.auth2.getAuthInstance();
+        auth.isSignedIn.listen((s: boolean) => { this.updateSigninStatus(s); });
+        this.updateSigninStatus(globalThis.gapi.auth2.getAuthInstance().isSignedIn.get());
     }
 
     private scopeStr(sc: string[]): string {
@@ -69,8 +70,8 @@ export class GApiService {
         console.log('updateSigninStatus:' + this.signined);
     }
 
-    public onAuthClick(event: any): void {
-        gapi.auth2.getAuthInstance().signIn();
+    public onAuthClick(): void {
+        globalThis.gapi.auth2.getAuthInstance().signIn();
     }
 
 
