@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
+import { GApiService } from "./GApiService";
 
 const FileChooseView = () => {
 
     const [queryFileName, setQueryFileName] = useState("");
     const [repoState, setRepoState] = useState(CurrentFileRepo.instance.state);
+    const [selectFile, setSelectFile] = useState("");
     CurrentFileRepo.instance.onStateChangeForChoose = setRepoState
 
     return (
@@ -19,14 +21,22 @@ const FileChooseView = () => {
             </div>
             {repoState === RepoState.Load_CANDIDATES && (
                 <div className="input-group mb-3">
-                    <select className="form-select" id="inputGroupSelect02">
+                    <select className="form-select" id="inputGroupSelect02"
+                        value={selectFile}
+                        onChange={e => {
+                            console.log(e.target.value);
+                            setSelectFile(e.target.value)
+                        }}  >
+                        <option key="" value="">Choose...</option>
                         {
                             CurrentFileRepo.instance.fileCandidates.map(item =>
                                 <option key={item.id} value={item.id}>{item.dirPath}/{item.name}</option>
                             )
                         }
                     </select>
-                    <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.loadCandidates(queryFileName)} type="button" id="button-addon2">Open</button>
+                    {selectFile && (
+                        <button className="btn btn-outline-secondary" onClick={async e => alert(await GApiService.instance.getFileContent(selectFile))} type="button" id="button-addon2">Open</button>
+                    )}
                 </div>
             )}
 

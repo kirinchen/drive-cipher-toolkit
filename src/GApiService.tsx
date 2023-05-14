@@ -156,6 +156,14 @@ export class GApiService {
         return allDirst.join("/");;
     }
 
+    public async getFileContent(fileId: string): Promise<string> {
+        const resp = await gapi.client.drive.files.get({
+            fileId,
+            alt: 'media'
+        });
+        return resp.body;
+    }
+
 
 }
 

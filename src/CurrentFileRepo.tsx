@@ -34,6 +34,8 @@ export class CurrentFileRepo {
         LoadingService.instance.close();
     }
 
+    
+
     private async fetchFileInfo(f: any): Promise<FileInfo> {
         const ans = new FileInfo();
         const dirPath = await GApiService.instance.getDirPath(f);
