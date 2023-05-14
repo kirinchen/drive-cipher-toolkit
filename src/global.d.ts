@@ -7,6 +7,7 @@ declare interface Window {
 declare module globalThis {
     var aTest: any;
     var gapi : any;
+    var google:any;
 }
 
 
