@@ -26,7 +26,7 @@ const FileChooseView = () => {
                             )
                         }
                     </select>
-                    <label className="input-group-text" >Options</label>
+                    <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.loadCandidates(queryFileName)} type="button" id="button-addon2">Open</button>
                 </div>
             )}
 

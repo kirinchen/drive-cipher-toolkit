@@ -6,6 +6,7 @@ import loading from './assets/loading.gif';
 import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import FileChooseView from "./FileChooseView";
+import { LoadingService } from "./service/LoadingService";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -49,21 +50,23 @@ const App = () => {
 
   const [gapiState, setGapiState] = useState(GApiService.instance.authState);
   const [repoState, setRepoState] = useState(CurrentFileRepo.instance.state);
+  const [showLoading, setShowLoading] = useState(LoadingService.instance.isLoading());
+  LoadingService.instance.onChange = setShowLoading;
   GApiService.instance.onStateChange = setGapiState
   CurrentFileRepo.instance.onStateChangeForApp = setRepoState
   return (
     <div className="App">
-      {isLoading(gapiState) && (
+      {(showLoading || isLoading(gapiState)) && (
         <section className="content" >
           <img src={loading} className="App-logo" alt="logo" />
         </section>
       )}
-      {isLogin(gapiState) && (
+      {(!showLoading && isLogin(gapiState)) && (
         <section className="content" >
           <GApiLoginView></GApiLoginView>
         </section>
       )}
-      {isChooseFile(gapiState, repoState) && (
+      {(!showLoading && isChooseFile(gapiState, repoState)) && (
         <section className="content" >
           <FileChooseView></FileChooseView>
         </section>

@@ -1,9 +1,10 @@
 import { GApiService } from "./GApiService";
 import { useState } from "react";
+import { LoadingService } from "./service/LoadingService";
 class FileInfo {
     public id: string = "";
     public dirPath: string = "";
-    public name : string = "";
+    public name: string = "";
 }
 
 export enum RepoState {
@@ -23,12 +24,14 @@ export class CurrentFileRepo {
     private constructor() { }
 
     public async loadCandidates(fileName: string) {
+        LoadingService.instance.show();
         this.fileCandidates = [];
         const files: any[] = await GApiService.instance.fetchFiles(fileName);
         for (const f of files) {
             this.fileCandidates.push(await this.fetchFileInfo(f));
         }
         this.setState(RepoState.Load_CANDIDATES);
+        LoadingService.instance.close();
     }
 
     private async fetchFileInfo(f: any): Promise<FileInfo> {
