@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <div className="topright">Top Right</div>
     <App />
   </React.StrictMode>
 );
