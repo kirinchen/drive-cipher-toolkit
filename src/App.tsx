@@ -1,12 +1,12 @@
-import { BaseSyntheticEvent, useEffect } from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from 'react-bootstrap';
-import { AuthState, GApiService } from "./GApiService";
-import "./styles.css";
-import loading from './assets/loading.gif';
-import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import FileChooseView from "./FileChooseView";
+import MainContentView from "./MainContentView";
+import { AuthState, GApiService } from "./GApiService";
+import loading from './assets/loading.gif';
 import { LoadingService } from "./service/LoadingService";
+import "./styles.css";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -37,6 +37,11 @@ const isLogin = (state: AuthState): boolean => {
 const isChooseFile = (state: AuthState, repoState: RepoState): boolean => {
   if (state !== AuthState.AUTH_LOGIN_DONE) return false;
   return repoState === RepoState.IDLE || repoState === RepoState.Load_CANDIDATES;
+};
+
+const isFileOpened = (state: AuthState, repoState: RepoState): boolean => {
+  if (state !== AuthState.AUTH_LOGIN_DONE) return false;
+  return repoState === RepoState.FILE_OPENED;
 };
 
 const App = () => {
@@ -70,6 +75,15 @@ const App = () => {
         <section className="content" >
           <FileChooseView></FileChooseView>
         </section>
+      )}
+      {(!showLoading && isFileOpened(gapiState, repoState)) && (
+        <>
+          <header className="header" > <FileChooseView></FileChooseView> </header>
+          <section className="content" >
+            <MainContentView></MainContentView>
+          </section>
+          <footer className="footer" > 我是底部 </footer>
+        </>
       )}
       {/* {!isLoading(gapiState) && (
         <>

@@ -11,15 +11,18 @@ const FileChooseView = () => {
 
     return (
         <div className="container" >
-            <div className="input-group mb-3">
-                <input type="text" className="form-control"
-                    value={queryFileName}
-                    onChange={(event) => setQueryFileName(event.target.value)}
-                    placeholder="Query fileName" aria-label="Recipient's username"
-                    aria-describedby="button-addon2" />
-                <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.loadCandidates(queryFileName)} type="button" id="button-addon2">Search</button>
-            </div>
-            {repoState === RepoState.Load_CANDIDATES && (
+            {repoState === RepoState.IDLE && (
+                <div className="input-group mb-3">
+                    <input type="text" className="form-control"
+                        value={queryFileName}
+                        onChange={(event) => setQueryFileName(event.target.value)}
+                        placeholder="Query fileName" aria-label="Recipient's username"
+                        aria-describedby="button-addon2" />
+                    <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.loadCandidates(queryFileName)} type="button" id="button-addon2">Search</button>
+                </div>
+            )}
+
+            {(repoState === RepoState.Load_CANDIDATES || repoState === RepoState.FILE_OPENED ) && (
                 <div className="input-group mb-3">
                     <select className="form-select" id="inputGroupSelect02"
                         value={selectFile}
@@ -35,8 +38,9 @@ const FileChooseView = () => {
                         }
                     </select>
                     {selectFile && (
-                        <button className="btn btn-outline-secondary" onClick={async e => alert(await GApiService.instance.getFileContent(selectFile))} type="button" id="button-addon2">Open</button>
+                        <button className="btn btn-outline-secondary" onClick={async e => CurrentFileRepo.instance.setOpenFile(selectFile)} type="button" id="button-addon2">Open</button>
                     )}
+                    <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.reset()} type="button" id="button-addon2">Reset</button>
                 </div>
             )}
 

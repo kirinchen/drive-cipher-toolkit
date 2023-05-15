@@ -122,6 +122,10 @@ export class GApiService {
         }
     }
 
+    public handleSignout():void{
+        TODO
+    }
+
     private setState(state: AuthState): void {
         this.authState = state;
         this.onStateChange(this.authState);
