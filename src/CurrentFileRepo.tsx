@@ -1,6 +1,26 @@
 import { GApiService } from "./GApiService";
-import { useState } from "react";
 import { LoadingService } from "./service/LoadingService";
+
+export class OpenFile {
+    public info: FileInfo | null = null;
+    private cipherKey: string = "";
+    private parseText: string = "";
+
+    public set(i: FileInfo): void {
+        this.info = i;
+        this.parseText = this.info.content;
+    }
+
+    public clear(): void {
+        this.info = null;
+    }
+
+    public getContent(): string {
+        return this.parseText;
+    }
+
+}
+
 class FileInfo {
     public id: string = "";
     public dirPath: string = "";
@@ -17,7 +37,7 @@ export enum RepoState {
 export class CurrentFileRepo {
     public static instance = new CurrentFileRepo();
 
-    public file: FileInfo | null = null;
+    public file: OpenFile = new OpenFile();
     public fileCandidates: FileInfo[] = [];
     public state: RepoState = RepoState.IDLE;
 
@@ -41,13 +61,13 @@ export class CurrentFileRepo {
         const fileInfo = this.fileCandidates.filter(e => e.id === fid)[0];
         const content = await GApiService.instance.getFileContent(fileInfo.id);
         fileInfo.content = content;
-        this.file = fileInfo;
+        this.file.set(fileInfo);
         this.setState(RepoState.FILE_OPENED);
         LoadingService.instance.close();
     }
 
     public reset() {
-        this.file = null;
+        this.file.clear();
         this.fileCandidates = [];
         this.setState(RepoState.IDLE);
     }

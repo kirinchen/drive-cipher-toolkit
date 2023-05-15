@@ -52,3 +52,7 @@
 .fill-height {
   flex: 1;
 }
+
+.editor-height{
+  height: 90%;
+}

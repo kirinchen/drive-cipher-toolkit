@@ -3,6 +3,7 @@ import { StringUtils } from "./utils/StringUtils";
 
 // TODO https://developers.google.com/drive/api/quickstart/js?hl=zh-tw
 // TODO https://developers.google.com/identity/oauth2/web/guides/migration-to-gis?hl=zh-tw#gis-popup-ux
+// TODO https://phppot.com/javascript/google-drive-upload-javascript/
 
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
@@ -157,11 +158,53 @@ export class GApiService {
     }
 
     public async getFileContent(fileId: string): Promise<string> {
-        const resp = await gapi.client.drive.files.get({
+        const resp = await globalThis.gapi.client.drive.files.get({
             fileId,
             alt: 'media'
         });
         return resp.body;
+    }
+
+    public async uploadFileContent() {
+        const blob = new Blob(['<div><h1>Hello World</h1></div>'])
+        const requestBody = {
+            name: 'abc.txt',
+            fields: 'id',
+        };
+        const media = {
+            mimeType: 'text/plain',
+            body: blob.stream(),
+        };
+        const resp = await globalThis.gapi.client.drive.files.create({
+            requestBody,
+            media: media,
+        });
+        console.log('File :', resp);
+
+        var fileContent = 'Hello World'; // As a sample, upload a text file.
+        var file = new Blob([fileContent], { type: 'text/plain' });
+        var metadata = {
+            'name': 'abc.txt', // Filename at Google Drive
+            'mimeType': 'text/plain', // mimeType at Google Drive
+            // TODO [Optional]: Set the below credentials
+            // Note: remove this parameter, if no target is needed
+            'parents': ['GAME'], // Folder ID at Google Drive which is optional
+        };
+    
+        var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+        var form = new FormData();
+        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+        form.append('file', file);
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+        xhr.responseType = 'json';
+        xhr.onload = () => {
+            console.log("OKOK");
+        };
+        xhr.send(form);
+      
     }
 
 

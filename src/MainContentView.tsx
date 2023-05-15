@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button, Stack } from 'react-bootstrap';
-import JsonEditorView from "./JsonEditorView";
-import "./styles.css";
+import { Button } from 'react-bootstrap';
 import { CurrentFileRepo } from "./CurrentFileRepo";
+import "./styles.css";
+import JsonEditorView from "./JsonEditorView";
 
 enum EditorType {
   TEXT = "TEXT",
@@ -15,15 +15,8 @@ enum EditorType {
 const MainContentView = () => {
 
   const [editorType, setEditorType] = useState(EditorType.TEXT);
-  const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file?.content);
+  const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file.getContent());
 
-  const style = {
-    backgroundColor: 'red',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer'
-  };
 
   return (
     <div className="container fill-height " >
@@ -38,9 +31,19 @@ const MainContentView = () => {
         </ul>
       </div>
 
-      <div className="row " style={style } >
-        <textarea className="col" value={fileContent} onChange={e => setFileContent(e.target.value)} ></textarea>
-      </div>
+      {editorType === EditorType.TEXT && (
+        <div className="row editor-height"  >
+          <textarea className="col" value={fileContent} onChange={e => setFileContent(e.target.value)} ></textarea>
+        </div>
+      )}
+
+      {editorType === EditorType.JSON && (
+        <div className="row editor-height"  >
+          <JsonEditorView></JsonEditorView>
+        </div>
+      )}
+
+
 
     </div>
   );
