@@ -1,56 +1,48 @@
 import { useState } from "react";
-import { Stack } from 'react-bootstrap';
+import { Button, Stack } from 'react-bootstrap';
 import JsonEditorView from "./JsonEditorView";
 import "./styles.css";
+import { CurrentFileRepo } from "./CurrentFileRepo";
 
-
+enum EditorType {
+  TEXT = "TEXT",
+  JSON = "JSON"
+}
 
 
 // declare const window: Window;
 // let aTest : any;
 const MainContentView = () => {
 
-  const [showEditor, setShowEditor] = useState(true);
+  const [editorType, setEditorType] = useState(EditorType.TEXT);
+  const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file?.content);
+
+  const style = {
+    backgroundColor: 'red',
+    font: 'inherit',
+    border: '1px solid blue',
+    padding: '8px',
+    cursor: 'pointer'
+  };
 
   return (
-    <section className="content">
+    <div className="container fill-height " >
+      <div className="row" >
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <Button onClick={e => setEditorType(EditorType.TEXT)} className={`nav-link ${editorType === EditorType.TEXT ? "active" : ""}  `} aria-current="page" >Text</Button>
+          </li>
+          <li className="nav-item">
+            <Button onClick={e => setEditorType(EditorType.JSON)} className={`nav-link ${editorType === EditorType.JSON ? "active" : ""}  `} >Json</Button>
+          </li>
+        </ul>
+      </div>
 
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            checked={showEditor}
-            onChange={() => {
-              setShowEditor(!showEditor)
-            }}
-          />{" "}
-          JSON / Text
-        </label>
-      </p>
+      <div className="row " style={style } >
+        <textarea className="col" value={fileContent} onChange={e => setFileContent(e.target.value)} ></textarea>
+      </div>
 
-      {showEditor && (
-        <JsonEditorView></JsonEditorView>
-      )}
-      {!showEditor && (
-        <Stack className="container" direction="horizontal" gap={2}>
-          <div className="row">
-
-            <div className="input-group mb-3 col-12">
-              <input type="text" className="form-control" placeholder="Username" aria-label="Username" />
-              <span className="input-group-text">@</span>
-              <input type="text" className="form-control" placeholder="Server" aria-label="Server" />
-            </div>
-
-            <div className="input-group col-12" >
-              <span className="input-group-text">With textarea</span>
-              <textarea className="form-control" aria-label="With textarea"></textarea>
-            </div>
-          </div>
-
-        </Stack>
-      )}
-
-    </section>
+    </div>
   );
 }
 

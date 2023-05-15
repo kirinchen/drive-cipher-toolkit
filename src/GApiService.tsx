@@ -96,21 +96,12 @@ export class GApiService {
 
     }
 
-
-
-    private updateSigninStatus(s: boolean) {
-        // this.signined = s;
-        // console.log('updateSigninStatus:' + this.signined);
-    }
-
-
-
     public handleAuth(): void {
         this.tokenClient.callback = async (resp: any) => {
             if (resp.error !== undefined) throw (resp);
             this.setState(AuthState.AUTH_LOGIN_DONE);
         };
-        const token = gapi.client.getToken();
+        const token = globalThis.gapi.client.getToken();
         console.log(token);
         if (token === null) {
             // Prompt the user to select a Google Account and ask for consent to share their data
@@ -122,8 +113,13 @@ export class GApiService {
         }
     }
 
-    public handleSignout():void{
-        TODO
+    public handleSignout(): void {
+        const token = globalThis.gapi.client.getToken();
+        if (token !== null) {
+            globalThis.google.accounts.oauth2.revoke(token.access_token);
+            globalThis.gapi.client.setToken('');
+        }
+        this.setState(AuthState.TOKEN_CLIENT_INIT_DONE);
     }
 
     private setState(state: AuthState): void {

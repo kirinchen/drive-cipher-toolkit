@@ -7,6 +7,7 @@ import { AuthState, GApiService } from "./GApiService";
 import loading from './assets/loading.gif';
 import { LoadingService } from "./service/LoadingService";
 import "./styles.css";
+import FooterView from "./FooterView";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -62,19 +63,26 @@ const App = () => {
   return (
     <div className="App">
       {(showLoading || isLoading(gapiState)) && (
-        <section className="content" >
+        <section className="content-center" >
           <img src={loading} className="App-logo" alt="logo" />
         </section>
       )}
       {(!showLoading && isLogin(gapiState)) && (
-        <section className="content" >
-          <GApiLoginView></GApiLoginView>
-        </section>
+        <>
+          <section className="content-center" >
+            <GApiLoginView></GApiLoginView>
+          </section>
+          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+        </>
+
       )}
       {(!showLoading && isChooseFile(gapiState, repoState)) && (
-        <section className="content" >
-          <FileChooseView></FileChooseView>
-        </section>
+        <>
+          <section className="content-center" >
+            <FileChooseView></FileChooseView>
+          </section>
+          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+        </>
       )}
       {(!showLoading && isFileOpened(gapiState, repoState)) && (
         <>
@@ -82,7 +90,7 @@ const App = () => {
           <section className="content" >
             <MainContentView></MainContentView>
           </section>
-          <footer className="footer" > 我是底部 </footer>
+          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
         </>
       )}
       {/* {!isLoading(gapiState) && (
