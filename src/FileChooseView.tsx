@@ -22,7 +22,7 @@ const FileChooseView = () => {
                 </div>
             )}
 
-            {(repoState === RepoState.Load_CANDIDATES || repoState === RepoState.FILE_OPENED ) && (
+            {(repoState === RepoState.Load_CANDIDATES || repoState === RepoState.FILE_OPENED || repoState === RepoState.FILE_TBD_DECRYPT) && (
                 <div className="input-group mb-3">
                     <select className="form-select" id="inputGroupSelect02"
                         value={selectFile}

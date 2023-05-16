@@ -8,6 +8,7 @@ import loading from './assets/loading.gif';
 import { LoadingService } from "./service/LoadingService";
 import "./styles.css";
 import FooterView from "./FooterView";
+import YesNoDialogModel from "./service/YesNoDailog";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -45,6 +46,11 @@ const isFileOpened = (state: AuthState, repoState: RepoState): boolean => {
   return repoState === RepoState.FILE_OPENED;
 };
 
+const isFileDecrypting = (state: AuthState, repoState: RepoState): boolean => {
+  if (state !== AuthState.AUTH_LOGIN_DONE) return false;
+  return repoState === RepoState.FILE_TBD_DECRYPT;
+};
+
 const App = () => {
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const App = () => {
           <section className="content-center" >
             <GApiLoginView></GApiLoginView>
           </section>
-          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+          <footer className="footer" > <FooterView gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
         </>
 
       )}
@@ -81,7 +87,15 @@ const App = () => {
           <section className="content-center" >
             <FileChooseView></FileChooseView>
           </section>
-          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+          <footer className="footer" > <FooterView gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+        </>
+      )}
+      {(!showLoading && isFileDecrypting(gapiState, repoState)) && (
+        <>
+          <section className="content-center" >
+            <FileChooseView></FileChooseView>
+          </section>
+          <footer className="footer" > <FooterView gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
         </>
       )}
       {(!showLoading && isFileOpened(gapiState, repoState)) && (
@@ -90,20 +104,11 @@ const App = () => {
           <section className="content" >
             <MainContentView></MainContentView>
           </section>
-          <footer className="footer" > <FooterView  gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
+          <footer className="footer" > <FooterView gapiState={gapiState} repoState={repoState}  ></FooterView> </footer>
         </>
       )}
-      {/* {!isLoading(gapiState) && (
-        <>
-          <header className="header" > <GApiLoginView></GApiLoginView> </header>
-          <section className="content" >
-            我是内容区
-            <img src={loading} className="App-logo" alt="logo" />
-          </section>
-          <footer className="footer" > 我是底部 </footer>
-        </>
-      )} */}
 
+      <YesNoDialogModel></YesNoDialogModel>
 
     </div>
   );
