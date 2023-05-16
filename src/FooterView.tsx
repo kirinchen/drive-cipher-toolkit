@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import { AuthState, GApiService } from "./GApiService";
 import { CipherUtils } from "./utils/CipherUtils";
+import { YesNoDailog } from "./service/YesNoDailog";
 
 const FooterView = (props: any) => {
     const gapiState: AuthState = props.gapiState;
@@ -35,7 +36,7 @@ const FooterView = (props: any) => {
                         {(gapiState === AuthState.AUTH_LOGIN_DONE &&
                             <button className="btn btn-outline-danger me-md-2" type="button">Sign Out</button>
                         )}
-                        <button className="btn btn-primary" onClick={async e => GApiService.instance.udateFile('1e4kOchDM6WRmo49YaOz2Rw6lWeZCBfdg', 'jjj')} type="button">About This</button>
+                        <button className="btn btn-primary" onClick={ e => YesNoDailog.instance.show()} type="button">About This</button>
                     </div>
                 </div>
             </div>

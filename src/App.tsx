@@ -8,7 +8,7 @@ import loading from './assets/loading.gif';
 import { LoadingService } from "./service/LoadingService";
 import "./styles.css";
 import FooterView from "./FooterView";
-import YesNoDialogModel from "./service/YesNoDailog";
+import YesNoDialogModal from "./service/YesNoDailog";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -108,7 +108,7 @@ const App = () => {
         </>
       )}
 
-      <YesNoDialogModel></YesNoDialogModel>
+      <YesNoDialogModal></YesNoDialogModal>
 
     </div>
   );
