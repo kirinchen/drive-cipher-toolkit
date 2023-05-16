@@ -26,7 +26,7 @@ const FooterView = (props: any) => {
                         {(gapiState === AuthState.AUTH_LOGIN_DONE &&
                             <button className="btn btn-outline-danger me-md-2" type="button">Sign Out</button>
                         )}
-                        <button className="btn btn-primary" onClick={ async e=> GApiService.instance.uploadFileContent() } type="button">About This</button>
+                        <button className="btn btn-primary" onClick={ async e=> GApiService.instance.udateFile('1e4kOchDM6WRmo49YaOz2Rw6lWeZCBfdg','jjj') } type="button">About This</button>
                         {cText}  {origText}
                     </div>
                 </div>

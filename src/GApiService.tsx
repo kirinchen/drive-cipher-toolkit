@@ -165,46 +165,35 @@ export class GApiService {
         return resp.body;
     }
 
-    public async uploadFileContent() {
-        const blob = new Blob(['<div><h1>Hello World</h1></div>'])
-        const requestBody = {
-            name: 'abc.txt',
-            fields: 'id',
-        };
-        const media = {
-            mimeType: 'text/plain',
-            body: blob.stream(),
-        };
-        const resp = await globalThis.gapi.client.drive.files.create({
-            requestBody,
-            media: media,
+    public async udateFile(fileId: string,content:string): Promise<any>{
+        var contentBlob = new  Blob([content], {
+            'type': 'text/plain'
         });
-        console.log('File :', resp);
+        const ans = await this.uploadFileContent(fileId,contentBlob);
+        return ans;
+    }
 
-        var fileContent = 'Hello World'; // As a sample, upload a text file.
-        var file = new Blob([fileContent], { type: 'text/plain' });
-        var metadata = {
-            'name': 'abc.txt', // Filename at Google Drive
-            'mimeType': 'text/plain', // mimeType at Google Drive
-            // TODO [Optional]: Set the below credentials
-            // Note: remove this parameter, if no target is needed
-            'parents': ['GAME'], // Folder ID at Google Drive which is optional
-        };
-    
-        var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-        var form = new FormData();
-        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-        form.append('file', file);
-    
-        var xhr = new XMLHttpRequest();
-        xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id');
-        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-        xhr.responseType = 'json';
-        xhr.onload = () => {
-            console.log("OKOK");
-        };
-        xhr.send(form);
-      
+    public async uploadFileContent(fileId: string, contentBlob: Blob): Promise<any> {
+        return new Promise((rev, rej) => {
+            try {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = 'json';
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) {
+                        return;
+                    }
+                    rev(xhr.response);
+                };
+                xhr.open('PATCH', 'https://www.googleapis.com/upload/drive/v3/files/' + fileId + '?uploadType=media');
+                xhr.setRequestHeader('Authorization', 'Bearer ' + globalThis.gapi.auth.getToken().access_token);
+                xhr.send(contentBlob);
+            } catch (error) {
+                rej(error);
+            }
+
+        });
+
+
     }
 
 

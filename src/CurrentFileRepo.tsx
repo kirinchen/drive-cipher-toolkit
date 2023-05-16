@@ -15,8 +15,12 @@ export class OpenFile {
         this.info = null;
     }
 
-    public getContent(): string {
+    public getPlainContent(): string {
         return this.parseText;
+    }
+
+    public getEncryptContent(): string {
+        return "TODO";
     }
 
 }
@@ -64,6 +68,10 @@ export class CurrentFileRepo {
         this.file.set(fileInfo);
         this.setState(RepoState.FILE_OPENED);
         LoadingService.instance.close();
+    }
+
+    public async saveToDrive() {
+
     }
 
     public reset() {
