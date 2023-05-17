@@ -1,4 +1,6 @@
-TODO https://www.positronx.io/react-js-bootstrap-modal-popup-component-tutorial/
+import { Modal } from "bootstrap";
+
+// TODO https://www.positronx.io/react-js-bootstrap-modal-popup-component-tutorial/
 export class YesNoDailog {
     public static instance = new YesNoDailog();
     private modal: any = null;
@@ -7,10 +9,13 @@ export class YesNoDailog {
     }
 
     private injectModal() {
-        if (!this.modal)
-            this.modal = new bootstrap.Modal(document.getElementById('YesNoModal'), {
-                keyboard: false
-            });
+        if (this.modal) return;
+        const dom = document.getElementById('YesNoModal') as HTMLElement;
+        this.modal = new Modal(dom, {
+            keyboard: false
+        });
+        console.log(`init ${dom} ${this.modal}`);
+
     }
 
     public show() {
