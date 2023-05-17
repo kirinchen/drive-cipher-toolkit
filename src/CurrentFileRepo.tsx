@@ -8,6 +8,8 @@ const ENCRYP_TEXT_CHECK_ID = "<__@$$SecretKit##@__>";
 export class OpenFile {
     public info: FileInfo | null = null;
     private cipherKey: string = "";
+    private editingText:string = "";
+    public onEditChange: (text: string) => void = (s) => { };
 
     public set(i: FileInfo): void {
         this.info = i;
@@ -44,11 +46,17 @@ export class OpenFile {
     }
 
     public getEditingContent(): string {
+        if(!this.editingText){
+            this.editingText = this.parseContent();
+        } 
+        return this.editingText;
+    }
+
+    private parseContent(): string {
         if (this.isEncryptFile()) return this.decryptContent();
         if (!this.info) throw new Error("open file null");
         return this.info?.content;
     }
-
 
 
     public getEncryptContent(): string {
