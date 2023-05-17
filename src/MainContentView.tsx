@@ -16,6 +16,7 @@ const MainContentView = () => {
 
   const [editorType, setEditorType] = useState(EditorType.TEXT);
   const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file.getEditingContent());
+  CurrentFileRepo.instance.file.onEditChange = setFileContent;
 
 
   return (
@@ -33,7 +34,10 @@ const MainContentView = () => {
 
       {editorType === EditorType.TEXT && (
         <div className="row editor-height"  >
-          <textarea className="col" value={fileContent} onChange={e => setFileContent(e.target.value)} ></textarea>
+          <textarea className="col"
+            value={fileContent}
+            onChange={e => CurrentFileRepo.instance.file.setEditingContent(e.target.value)} >
+          </textarea>
         </div>
       )}
 

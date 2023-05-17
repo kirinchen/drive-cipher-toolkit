@@ -8,7 +8,7 @@ const ENCRYP_TEXT_CHECK_ID = "<__@$$SecretKit##@__>";
 export class OpenFile {
     public info: FileInfo | null = null;
     private cipherKey: string = "";
-    private editingText:string = "";
+    private editingText: string = "";
     public onEditChange: (text: string) => void = (s) => { };
 
     public set(i: FileInfo): void {
@@ -46,10 +46,16 @@ export class OpenFile {
     }
 
     public getEditingContent(): string {
-        if(!this.editingText){
+        if (!this.editingText) {
             this.editingText = this.parseContent();
-        } 
+        }
         return this.editingText;
+    }
+
+    public setEditingContent(t: string) {
+        if (!this.editingText) throw new Error("editingText not init!!");
+        this.editingText = t;
+        this.onEditChange(this.editingText);
     }
 
     private parseContent(): string {
@@ -92,7 +98,7 @@ export enum RepoState {
     IDLE = "IDLE",
     Load_CANDIDATES = "CANDIDATES",
     FILE_OPENED = "FILE_OPENED",
-    FILE_TBD_DECRYPT ="FILE_TBD_DECRYPT"
+    FILE_TBD_DECRYPT = "FILE_TBD_DECRYPT"
 }
 
 export class CurrentFileRepo {
@@ -127,10 +133,10 @@ export class CurrentFileRepo {
         LoadingService.instance.close();
     }
 
-    public refreshFileState(){
-        if(this.file.isDecryptOK()){
+    public refreshFileState() {
+        if (this.file.isDecryptOK()) {
             this.setState(RepoState.FILE_OPENED);
-        }else{
+        } else {
             this.setState(RepoState.FILE_TBD_DECRYPT);
         }
     }
