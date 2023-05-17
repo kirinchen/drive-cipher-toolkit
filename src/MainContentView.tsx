@@ -15,7 +15,7 @@ enum EditorType {
 const MainContentView = () => {
 
   const [editorType, setEditorType] = useState(EditorType.TEXT);
-  const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file.getPlainContent());
+  const [fileContent, setFileContent] = useState(CurrentFileRepo.instance.file.getEditingContent());
 
 
   return (

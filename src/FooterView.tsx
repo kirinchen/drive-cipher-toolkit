@@ -25,8 +25,14 @@ const FooterView = (props: any) => {
                             placeholder="encrypt key" aria-label="Example text with two button addons"
                         />
 
-                        {(repoState === RepoState.FILE_OPENED && 
-                            <button onClick={e => CurrentFileRepo.instance.saveToDrive()} className="btn btn-outline-secondary" type="button">Save Drive</button>
+                        {(repoState === RepoState.FILE_OPENED &&
+                            <button onClick={e => {
+                                YesNoDailog.instance.show("Noted", "Do you override file on google drive", y => {
+                                    if (!y) return;
+                                    CurrentFileRepo.instance.saveToDrive();
+                                });
+
+                            }} className="btn btn-outline-secondary" type="button">Save Drive</button>
                         )}
                     </div>
                 )}
@@ -36,7 +42,7 @@ const FooterView = (props: any) => {
                         {(gapiState === AuthState.AUTH_LOGIN_DONE &&
                             <button className="btn btn-outline-danger me-md-2" type="button">Sign Out</button>
                         )}
-                        <button className="btn btn-primary" onClick={ e => YesNoDailog.instance.show()} type="button">About This</button>
+                        <button className="btn btn-primary" onClick={e => YesNoDailog.instance.show("TEST", "BODY", s => alert(s))} type="button">About This</button>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ const FileChooseView = () => {
 
     const [queryFileName, setQueryFileName] = useState("");
     const [repoState, setRepoState] = useState(CurrentFileRepo.instance.state);
-    const [selectFile, setSelectFile] = useState("");
+    const [selectFile, setSelectFile] = useState(CurrentFileRepo.instance.file.info?.id);
     CurrentFileRepo.instance.onStateChangeForChoose = setRepoState
 
     return (
@@ -33,7 +33,7 @@ const FileChooseView = () => {
                         <option key="" value="">Choose...</option>
                         {
                             CurrentFileRepo.instance.fileCandidates.map(item =>
-                                <option key={item.id} value={item.id}>{item.dirPath}/{item.name}</option>
+                                <option selected={item.id === selectFile} key={item.id} value={item.id}>{item.dirPath}/{item.name}</option>
                             )
                         }
                     </select>

@@ -24,7 +24,7 @@ export class OpenFile {
 
     public isDecryptOK(): boolean {
         try {
-            if (this.getPlainContent()) return true;
+            if (this.getEditingContent()) return true;
         } catch (error) {
             console.log(error);
         }
@@ -43,16 +43,18 @@ export class OpenFile {
         this.info = null;
     }
 
-    public getPlainContent(): string {
+    public getEditingContent(): string {
         if (this.isEncryptFile()) return this.decryptContent();
         if (!this.info) throw new Error("open file null");
         return this.info?.content;
     }
 
+
+
     public getEncryptContent(): string {
         const nowAt = new Date();
         const packObj = {
-            body: this.getPlainContent(),
+            body: this.getEditingContent(),
             encryptAt: nowAt.toISOString(),
             appVersion: process.env.REACT_APP_VERSION
         };
