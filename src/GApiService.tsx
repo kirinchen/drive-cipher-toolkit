@@ -138,7 +138,12 @@ export class GApiService {
         return response.result.files;
     }
 
-
+    public async getFile(fileId: string): Promise<any> {
+        const response = await globalThis.gapi.client.drive.files.get({
+            fileId: fileId
+        });
+        return response.result.files;
+    }    
 
     public async getDirPath(file: any): Promise<string> {
         // parents

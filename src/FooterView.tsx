@@ -8,7 +8,6 @@ const FooterView = (props: any) => {
     const gapiState: AuthState = props.gapiState;
     const repoState: RepoState = props.repoState;
     const [cipherKey, setCipherKey] = useState(CurrentFileRepo.instance.file.getCipherKey());
-
     // repoState === RepoState.FILE_OPENED && 
     return (
         <div className="container" >
@@ -45,7 +44,7 @@ const FooterView = (props: any) => {
                         {(gapiState === AuthState.AUTH_LOGIN_DONE &&
                             <button className="btn btn-outline-danger me-md-2" type="button">Sign Out</button>
                         )}
-                        <button className="btn btn-primary" onClick={e => YesNoDailog.instance.show("TEST", "BODY", s => alert(s))} type="button">About This</button>
+                        <button className="btn btn-primary" onClick={e => GApiService.instance.getFile("1qoQz_Dvu3cPyK1WhG3mTYR0aBL5HvNTY") } type="button">About This</button>
                     </div>
                 </div>
             </div>
