@@ -1,14 +1,12 @@
-import VanillaJSONEditor from "./VanillaJSONEditor";
-import { useEffect, useState } from "react";
-import "./styles.css";
-import { JsLoaderService } from "./JsLoaderSservice";
+import { useState } from "react";
 import { CurrentFileRepo } from "./CurrentFileRepo";
+import VanillaJSONEditor from "./VanillaJSONEditor";
+import "./styles.css";
 
 const JsonEditorView = (props: any) => {
 
   const fileContent: string = props.fileContent;
 
-  const [readOnly, setReadOnly] = useState(false);
   const [content, setContent] = useState({
     // json: {
     //   greeting: "Hello World",
@@ -23,7 +21,7 @@ const JsonEditorView = (props: any) => {
     <div className="my-editor col">
       <VanillaJSONEditor
         content={content}
-        readOnly={readOnly}
+        readOnly={false}
         onChange={(e: any) => {
           setContent(e);
           const josnText = e.text ? e.text : JSON.stringify(e.json,null, 4);

@@ -1,8 +1,5 @@
 import AES from 'crypto-js/aes';
 import encUtf8 from 'crypto-js/enc-utf8';
-
-
-
 export class CipherUtils {
     public static instance: CipherUtils = new CipherUtils();
     private CipherUtils() { }

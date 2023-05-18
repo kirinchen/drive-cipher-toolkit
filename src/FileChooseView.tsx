@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
-import { GApiService } from "./GApiService";
 
 const FileChooseView = () => {
 

@@ -1,10 +1,6 @@
 import { JsLoaderService } from "./JsLoaderSservice";
 import { StringUtils } from "./utils/StringUtils";
 
-// TODO https://developers.google.com/drive/api/quickstart/js?hl=zh-tw
-// TODO https://developers.google.com/identity/oauth2/web/guides/migration-to-gis?hl=zh-tw#gis-popup-ux
-// TODO https://phppot.com/javascript/google-drive-upload-javascript/
-
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
 export enum AuthState {

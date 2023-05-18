@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import { AuthState, GApiService } from "./GApiService";
-import { CipherUtils } from "./utils/CipherUtils";
 import { YesNoDailog } from "./service/YesNoDailog";
 
 const FooterView = (props: any) => {
@@ -14,7 +13,7 @@ const FooterView = (props: any) => {
             <div className="row" >
                 {((repoState === RepoState.FILE_OPENED || repoState === RepoState.FILE_TBD_DECRYPT) &&
                     <div className="col-md  input-group">
-                        {repoState == RepoState.FILE_TBD_DECRYPT && (
+                        {repoState === RepoState.FILE_TBD_DECRYPT && (
                             <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.refreshFileState()} type="button">decrypt</button>
                         )}
 
