@@ -77,7 +77,7 @@ export class GApiService {
                 reject(err);
             }
         });
-        this.handleAuth();
+        // this.handleAuth();
     }
 
     private async createClient(): Promise<void> {

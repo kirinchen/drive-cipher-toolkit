@@ -43,6 +43,8 @@ export class OpenFile {
 
     public clear(): void {
         this.info = null;
+        this.editingText = "";
+        this.cipherKey = "";
     }
 
     public getEditingContent(): string {
@@ -66,6 +68,7 @@ export class OpenFile {
 
 
     public getEncryptContent(): string {
+        if (!this.cipherKey) return this.getEditingContent();
         const nowAt = new Date();
         const packObj = {
             body: this.getEditingContent(),

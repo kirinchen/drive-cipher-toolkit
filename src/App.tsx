@@ -1,4 +1,5 @@
 import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import FileChooseView from "./FileChooseView";
@@ -59,7 +60,8 @@ const App = () => {
       GApiService.instance.init();
     }
   }, []);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const [gapiState, setGapiState] = useState(GApiService.instance.authState);
   const [repoState, setRepoState] = useState(CurrentFileRepo.instance.state);
   const [showLoading, setShowLoading] = useState(LoadingService.instance.isLoading());
@@ -68,6 +70,7 @@ const App = () => {
   CurrentFileRepo.instance.onStateChangeForApp = setRepoState
   return (
     <div className="App">
+      {searchParams.get("test")+"12"}
       {(showLoading || isLoading(gapiState)) && (
         <section className="content-center" >
           <img src={loading} className="App-logo" alt="logo" />

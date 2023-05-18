@@ -43,7 +43,7 @@ const MainContentView = () => {
 
       {editorType === EditorType.JSON && (
         <div className="row editor-height"  >
-          <JsonEditorView></JsonEditorView>
+          <JsonEditorView fileContent={fileContent}></JsonEditorView>
         </div>
       )}
 
