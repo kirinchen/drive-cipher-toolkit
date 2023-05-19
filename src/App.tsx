@@ -56,7 +56,6 @@ const App = () => {
   useEffect(() => {
     return () => {
       console.log("This only happens ONCE");
-      GApiService.instance.init();
     }
   }, []);
   const searchParams = new URLSearchParams(document.location.search);
