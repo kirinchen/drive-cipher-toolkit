@@ -1,3 +1,4 @@
+import { CurrentFileRepo } from "./CurrentFileRepo";
 import { JsLoaderService } from "./JsLoaderSservice";
 import { StringUtils } from "./utils/StringUtils";
 
@@ -96,10 +97,19 @@ export class GApiService {
 
     }
 
+    private onLoginSuccess(){
+        this.setState(AuthState.AUTH_LOGIN_DONE);
+        const searchParams = new URLSearchParams(document.location.search);
+        const fid = searchParams.get("fid");
+        if(!fid) return;
+        CurrentFileRepo.instance.setOpenFile(fid);
+    }
+
     public handleAuth(): void {
         this.tokenClient.callback = async (resp: any) => {
             if (resp.error !== undefined) throw (resp);
-            this.setState(AuthState.AUTH_LOGIN_DONE);
+            this.onLoginSuccess();
+            
         };
         const token = globalThis.gapi.client.getToken();
         console.log(token);
@@ -141,7 +151,7 @@ export class GApiService {
         const response = await globalThis.gapi.client.drive.files.get({
             fileId: fileId
         });
-        return response.result.files;
+        return response.result;
     }    
 
     public async getDirPath(file: any): Promise<string> {

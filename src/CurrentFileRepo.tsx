@@ -126,8 +126,18 @@ export class CurrentFileRepo {
         LoadingService.instance.close();
     }
 
+    private async loadCandidateByFileId(fileId: string) {
+        this.fileCandidates = [];
+        const f = await GApiService.instance.getFile(fileId);
+        this.fileCandidates.push(await this.fetchFileInfo(f));
+        this.setState(RepoState.Load_CANDIDATES);
+    }
+
     public async setOpenFile(fid: string) {
         LoadingService.instance.show();
+        if (this.fileCandidates.length <= 0) {
+            await this.loadCandidateByFileId(fid);
+        }
         const fileInfo = this.fileCandidates.filter(e => e.id === fid)[0];
         const content = await GApiService.instance.getFileContent(fileInfo.id);
         fileInfo.content = content;
