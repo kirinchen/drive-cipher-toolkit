@@ -1,6 +1,7 @@
 {
   "name": "drive-cipher-toolkit",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@babel/runtime": "7.20.6",
