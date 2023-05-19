@@ -7,7 +7,7 @@ jobs:
   build:
     name: Build and deploy gh-pages
     env:
-      MY_SECRET   : ${{secrets.GITHUB_TOKEN}}
+      MY_SECRET   : ${{secrets.COMMIT_TOKEN}}
       USER_NAME   : githubaction
       USER_EMAIL  : githubaction@github.com
       PUBLISH_DIR : ./build
