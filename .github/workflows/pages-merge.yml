@@ -39,4 +39,4 @@ jobs:
         git add --all
         git commit -m "deploy to Github pages"
         git push origin gh-pages -f
-        echo 🤘 deploy gh-pages complete.
+        echo 🤘 deploy gh-pages complete to $GITHUB_REPOSITORY.git.
