@@ -102,7 +102,7 @@ const App = () => {
       )}
 
       <YesNoDialogModal></YesNoDialogModal>
-
+      <input type="hidden" value={process.env.REACT_APP_VERSION} />
     </div>
   );
 }
