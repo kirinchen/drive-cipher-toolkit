@@ -4,6 +4,7 @@ import { StringUtils } from "./utils/StringUtils";
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 
 export enum AuthState {
+    API_INIT_IDLE = "API_INIT_IDLE",
     API_INI_RUN = "API_INI_RUN",
     API_SCRIPT_LOADED = "API_SCRIPT_LOADED",
     API_CLIENT_INIT_DONE = "API_CLIENT_INIT_DONE",
@@ -15,7 +16,7 @@ export enum AuthState {
 
 export class GApiService {
     public static instance: GApiService = new GApiService();
-    public authState = AuthState.API_INI_RUN;
+    public authState = AuthState.API_INIT_IDLE;
     public onStateChange: (state: AuthState) => void = (s) => { };
     private tokenClient: any = null;
 
@@ -25,6 +26,8 @@ export class GApiService {
 
 
     public async init(): Promise<void> {
+        if(this.authState !== AuthState.API_INIT_IDLE) return;
+        this.authState = AuthState.API_INI_RUN;
         console.log("init GAPI!!");
         await JsLoaderService.loadScript({
             id: 'gapiScript',

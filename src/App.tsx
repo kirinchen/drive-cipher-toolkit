@@ -1,14 +1,14 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import { Button } from 'react-bootstrap';
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
 import FileChooseView from "./FileChooseView";
-import MainContentView from "./MainContentView";
+import FooterView from "./FooterView";
 import { AuthState, GApiService } from "./GApiService";
+import MainContentView from "./MainContentView";
 import loading from './assets/loading.gif';
 import { LoadingService } from "./service/LoadingService";
-import "./styles.css";
-import FooterView from "./FooterView";
 import YesNoDialogModal from "./service/YesNoDailog";
+import "./styles.css";
 
 const onAuthClick = (e: BaseSyntheticEvent) => {
   console.log(e);
@@ -52,23 +52,15 @@ const isFileDecrypting = (state: AuthState, repoState: RepoState): boolean => {
 };
 
 const App = () => {
-
-  useEffect(() => {
-    return () => {
-      console.log("This only happens ONCE");
-    }
-  }, []);
-  const searchParams = new URLSearchParams(document.location.search);
-  
   const [gapiState, setGapiState] = useState(GApiService.instance.authState);
   const [repoState, setRepoState] = useState(CurrentFileRepo.instance.state);
   const [showLoading, setShowLoading] = useState(LoadingService.instance.isLoading());
   LoadingService.instance.onChange = setShowLoading;
-  GApiService.instance.onStateChange = setGapiState
-  CurrentFileRepo.instance.onStateChangeForApp = setRepoState
+  GApiService.instance.onStateChange = setGapiState;
+  CurrentFileRepo.instance.onStateChangeForApp = setRepoState;
+  GApiService.instance.init();
   return (
     <div className="App">
-      {searchParams.get("test")+"12"}
       {(showLoading || isLoading(gapiState)) && (
         <section className="content-center" >
           <img src={loading} className="App-logo" alt="logo" />
