@@ -17,7 +17,7 @@ const FooterView = (props: any) => {
                             <button className="btn btn-outline-secondary" onClick={e => CurrentFileRepo.instance.refreshFileState()} type="button">decrypt</button>
                         )}
 
-                        <input type="text" className="form-control"
+                        <input type="password" className="form-control"
                             onChange={e => {
                                 setCipherKey(e.target.value);
                                 CurrentFileRepo.instance.file.setCipherKey(e.target.value);
