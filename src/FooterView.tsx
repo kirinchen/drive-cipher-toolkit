@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CurrentFileRepo, RepoState } from "./CurrentFileRepo";
-import { AuthState, GApiService } from "./GApiService";
+import { AuthState } from "./GApiService";
 import { YesNoDailog } from "./service/YesNoDailog";
 
 const FooterView = (props: any) => {
