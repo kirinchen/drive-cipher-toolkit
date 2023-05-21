@@ -66,7 +66,6 @@ export class GApiService {
                             'https://www.googleapis.com/auth/drive.metadata.readonly',
                             'https://www.googleapis.com/auth/drive.appdata',
                             'https://www.googleapis.com/auth/drive.metadata',
-                            'https://www.googleapis.com/auth/drive.photos.readonly'
                         ]
                     ),
                     // prompt: 'consent',
