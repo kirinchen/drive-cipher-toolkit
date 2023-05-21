@@ -43,7 +43,9 @@ const FooterView = (props: any) => {
                         {(gapiState === AuthState.AUTH_LOGIN_DONE &&
                             <button className="btn btn-outline-danger me-md-2" type="button">Sign Out</button>
                         )}
-                        <button className="btn btn-primary" onClick={e => GApiService.instance.getFile("1qoQz_Dvu3cPyK1WhG3mTYR0aBL5HvNTY") } type="button">About This</button>
+                        <a className="btn btn-primary" href="https://github.com/kirinchen/drive-cipher-toolkit" type="button">About This</a>
+                        <a className="btn btn-primary" href="./terms_and_conditions.html" type="button">terms</a>
+                        <a className="btn btn-primary" href="./privacy_policy.html" type="button">privacy policy</a>
                     </div>
                 </div>
             </div>
